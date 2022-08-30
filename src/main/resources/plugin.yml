@@ -1,0 +1,7 @@
+name: CPSpeed
+version: "${project.version}"
+description: Provides teleportation commands
+author: maksim2498
+
+main: space.moontalk.mc.cpspeed.CPSpeed
+api-version: 1.13
