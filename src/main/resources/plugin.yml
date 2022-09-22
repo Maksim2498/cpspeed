@@ -5,3 +5,93 @@ author: maksim2498
 
 main: space.moontalk.mc.cpspeed.CPSpeed
 api-version: 1.13
+
+commands:
+  tpa:
+    description: Teleports you to another player
+    permission: cpspeed.tpa
+    usage: |
+      /<command> list sent
+      /<command> list got
+      /<command> to <player name>
+      /<command> <player name>
+      /<command> accept [player name]
+      /<command> deny [player name]
+
+  spawn:
+    description: Teleports you to your spawn
+    permission: cpspeed.spawn
+    usage: /<command> 
+
+  worldspawn:
+    description: Teleports you to worldspawn
+    permission: cpspeed.worldspawn
+    usage: /<command> [world name]
+    aliases: [wspawn]
+
+permissions:
+  cpspeed.tpa:
+    description: Gives access to all tpa-commands
+    default: true
+    children:
+      cpspeed.tpa.list
+      cpspeed.tpa.to
+      cpspeed.tpa.accept
+      cpspeed.tpa.deny
+
+  cpspeed.tpa.list:
+    description: Gives access to all tpa-list-commands
+    default: true
+    children:
+      cpspeed.tpa.list.got
+      cpspeed.tpa.list.sent
+
+  cpspeed.tpa.list.got:
+    description: Gives access to all tpa-list-got-commands
+    default: true
+    children:
+      cpspeed.tpa.list.got.self
+      cpspeed.tpa.list.got.other
+
+  cpspeed.tpa.list.got.self:
+    description: Allowes players to list got requests
+    default: true
+
+  cpspeed.tpa.list.got.other:
+    description: Allowes players to list other players' got requests
+    default: op
+
+  cpspeed.tpa.list.sent:
+    description: Gives access to all tpa-list-sent-commands
+    default: true
+    children:
+      cpspeed.tpa.list.sent.self
+      cpspeed.tpa.list.sent.other
+
+  cpspeed.tpa.list.sent.self:
+    description: Allowes players to list sent requests
+    default: true
+
+  cpspeed.tpa.list.sent.other:
+    description: Allowes players to list other players' sent requests
+    default: op
+
+  cpspeed.tpa.to:
+    description: Allowes players to teleport to each other
+    default: true
+
+  cpspeed.tpa.accept:
+    description: Allowes players to accept teleportation requests
+    default: true
+
+  cpspeed.tpa.deny:
+    description: Allowes players to deny teleportation requests
+    default: true
+
+  cpspeed.spawn:
+    description: Allowes players to teleport to their spawn
+    default: true
+
+  cpspeed.worldspawn:
+    description: Allowes players to teleport to world spawn
+    default: true
