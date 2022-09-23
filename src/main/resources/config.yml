@@ -28,7 +28,7 @@ message:
     to-named-location: "Teleporting to <to>"
     to-player: "Teleporting to <to> in"
     to-you: "<from> is teleporting to you in"
-    count-down: "<left>"
+    count-down: "<left-seconds>"
     finish: "§aTeleported"
     seconds: "second(s)"
 

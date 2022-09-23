@@ -189,8 +189,12 @@ public class DefaultMessageProvider implements MessageProvider {
     public @NotNull String makeCountDownMessage(@NotNull Time left, @NotNull Time delay) {
         return getFormatedString(
             "teleport.count-down",
-            "left",  left.toString(this),
-            "delay", delay.toString(this)
+            "left",          left.toString(this),
+            "left-seconds",  Integer.toString(left.getSeconds()),
+            "left-minutes",  Integer.toString(left.getMinutes()),
+            "delay",         delay.toString(this),
+            "delay-seconds", Integer.toString(delay.getSeconds()),
+            "delay-minutes", Integer.toString(delay.getMinutes())
         );
     }
     
@@ -219,9 +223,13 @@ public class DefaultMessageProvider implements MessageProvider {
     public @NotNull String makeWaitUntilCoolDownOverMessage(@NotNull Player from, @NotNull Time left, @NotNull Time delay) {
         return getFormatedString(
             "error.wait-until-cool-down-over",
-            "from",  from.getName(),
-            "left",  left.toString(this),
-            "delay", delay.toString(this)
+            "from",          from.getName(),
+            "left",          left.toString(this),
+            "left-seconds",  Integer.toString(left.getSeconds()),
+            "left-minutes",  Integer.toString(left.getMinutes()),
+            "delay",         delay.toString(this),
+            "delay-seconds", Integer.toString(delay.getSeconds()),
+            "delay-minutes", Integer.toString(delay.getMinutes())
         );
     }
     
