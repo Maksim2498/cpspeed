@@ -87,10 +87,10 @@ public class CPSpeed extends JavaPlugin {
         val router         = commandHandler.getRouter();
 
         val tpaListGotHandler = new TpaListGotHandler(teleportManager);
-        router.addRoute("list got %p?", tpaListGotHandler);
+        router.addRoute("list (got | in) %p?", tpaListGotHandler);
 
         val tpaListSentHandler = new TpaListSentHandler(teleportManager);
-        router.addRoute("list sent %p?", tpaListSentHandler);
+        router.addRoute("list (sent | out) %p?", tpaListSentHandler);
 
         val tpaToHandler = new TpaToHandler(teleportManager);
         router.addRoute("to? %p", tpaToHandler); 
