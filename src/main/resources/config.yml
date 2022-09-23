@@ -18,9 +18,15 @@ message:
     your-was-accepted: "§aYour request to <to> was accepted"
     your-time-out: "§cYour request's to <to> time out"
     time-out: "§eRequest's from <from> time out"
-    list-header: "Your requests (<count>):"
-    list-item: "- <from>"
     specify: "§cYou have <count> requests. Please specify player's name whose request you want to answer to"
+
+    list:
+      your-got-header: "Your incomming requests (<count>):"
+      got-header: "<to>'s incomming requests (<count>):"
+      got-item: "<- <from>"
+      your-sent-header: "Your outcomming requests (<count>):"
+      sent-header: "<from>'s outcomming requests (<count>):"
+      sent-item: "-> <to>"
 
   teleport:
     cannot: "§c<from> cannot be teleported now"

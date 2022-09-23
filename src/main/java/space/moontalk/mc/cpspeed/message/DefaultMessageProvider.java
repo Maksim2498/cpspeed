@@ -117,27 +117,65 @@ public class DefaultMessageProvider implements MessageProvider {
     }
     
 	@Override
-    public @NotNull String makeRequestsHeaderMessage(@NotNull Set<Player> requests) {
-        return getFormatedString(
-            "request.list-header",
-            "count", Integer.toString(requests.size())
-        );
-    }
-    
-	@Override
-    public @NotNull String makeRequestsItemMessage(@NotNull Player from) {
-        return getFormatedString(
-            "request.list-item",
-            "from", from.getName()
-        );
-    }
-    
-	@Override
     public @NotNull String makeSpecifyRequestMessage(@NotNull Player to, @NotNull Set<Player> requests) {
         return getFormatedString(
             "request.specify",
             "to",    to.getName(),
             "count", Integer.toString(requests.size())
+        );
+    }
+
+	@Override
+	public @NotNull String makeYourGotRequestsHeaderMessage(@NotNull Player to, @NotNull Set<Player> requests) {
+        return getFormatedString(
+            "request.list.your-got-header",
+            "to",    to.getName(),
+            "count", Integer.toString(requests.size())
+        );
+    }
+
+	@Override
+	public @NotNull String makeGotRequestsHeaderMessage(@NotNull Player to, @NotNull Set<Player> requests) {
+        return getFormatedString(
+            "request.list.got-header",
+            "to",    to.getName(),
+            "count", Integer.toString(requests.size())
+        );
+    }
+    
+	@Override
+	public @NotNull String makeGotRequestsItemMessage(@NotNull Player from, @NotNull Player to) {
+        return getFormatedString(
+            "request.list.got-item",
+            "from",  from.getName(),
+            "to",    to.getName()
+        );
+    }
+    
+	@Override
+	public @NotNull String makeYourSentRequestsHeaderMessage(@NotNull Player from, @NotNull Set<Player> requests) {
+        return getFormatedString(
+            "request.list.your-sent-header",
+            "sent",  from.getName(),
+            "count", Integer.toString(requests.size())
+        );
+    }
+
+	@Override
+	public @NotNull String makeSentRequestsHeaderMessage(@NotNull Player from, @NotNull Set<Player> requests) {
+        return getFormatedString(
+            "request.list.sent-header",
+            "from",  from.getName(),
+            "count", Integer.toString(requests.size())
+        );
+    }
+    
+	@Override
+	public @NotNull String makeSentRequestsItemMessage(@NotNull Player from, @NotNull Player to) {
+        return getFormatedString(
+            "request.list.sent-item",
+            "from",  from.getName(),
+            "to",    to.getName()
         );
     }
     
