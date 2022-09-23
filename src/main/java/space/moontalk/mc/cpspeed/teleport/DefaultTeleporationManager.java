@@ -205,8 +205,13 @@ public class DefaultTeleporationManager implements TeleportManager {
     }
 
     private @NotNull int getLastTeleporationSecond(@NotNull Player player) {
+        val defaultSecond  = getDefaultLastTeleportationSecond();
         val playerUniqueId = player.getUniqueId();
-        return lastTeleporationSecondTable.getOrDefault(playerUniqueId, 0);
+        return lastTeleporationSecondTable.getOrDefault(playerUniqueId, defaultSecond);
+    }
+
+    private int getDefaultLastTeleportationSecond() {
+        return getCurrentSecond() - coolDownSeconds;
     }
 
     private void throwIfCannotTeleport(@NotNull Player player) throws Exception {
