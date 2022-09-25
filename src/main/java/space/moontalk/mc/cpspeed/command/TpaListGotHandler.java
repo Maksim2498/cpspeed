@@ -10,6 +10,8 @@ import space.moontalk.mc.commands.route.RouteHandler;
 
 import space.moontalk.mc.cpspeed.teleport.TeleportManager;
 
+// list (got | in) %p?
+
 @Getter
 @AllArgsConstructor
 public class TpaListGotHandler implements RouteHandler {
@@ -17,7 +19,7 @@ public class TpaListGotHandler implements RouteHandler {
 
     @Override
     public void onRoute(@NotNull RouteCall call) throws Exception {
-        throw new Exception("§cNot implemented"); 
+
     }
 
     @Override

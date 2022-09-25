@@ -10,6 +10,8 @@ import space.moontalk.mc.commands.route.RouteHandler;
 
 import space.moontalk.mc.cpspeed.teleport.TeleportManager;
 
+// list (sent | out) %p?
+
 @Getter
 @AllArgsConstructor
 public class TpaListSentHandler implements RouteHandler {
