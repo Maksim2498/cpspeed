@@ -21,9 +21,13 @@ message:
     specify: "§cYou have <count> requests. Please specify player's name whose request you want to answer to"
 
     list:
+      you-have-no-got: "You have no incomming requests"
+      has-no-got: "<to> has no incomming requests"
       your-got-header: "Your incomming requests (<count>):"
       got-header: "<to>'s incomming requests (<count>):"
       got-item: "<- <from>"
+      you-have-no-sent: "You have no outcomming requests"
+      has-no-sent: "<from> has no outcomming requests"
       your-sent-header: "Your outcomming requests (<count>):"
       sent-header: "<from>'s outcomming requests (<count>):"
       sent-item: "-> <to>"

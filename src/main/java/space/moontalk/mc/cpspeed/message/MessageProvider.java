@@ -32,12 +32,20 @@ public interface MessageProvider extends SecondsMessageProvider {
 	@NotNull String makeRequestTimeOutMessage(@NotNull Player from, @NotNull Player to);
 
 	@NotNull String makeSpecifyRequestMessage(@NotNull Player to, @NotNull Set<Player> requests);
+
+	@NotNull String makeYouHaveNoGotRequestsMessage(@NotNull Player to);
+
+	@NotNull String makeHasNoGotRequestsMessage(@NotNull Player to);
     
 	@NotNull String makeYourGotRequestsHeaderMessage(@NotNull Player to, @NotNull Set<Player> requests);
 
 	@NotNull String makeGotRequestsHeaderMessage(@NotNull Player to, @NotNull Set<Player> requests);
     
 	@NotNull String makeGotRequestsItemMessage(@NotNull Player from, @NotNull Player to);
+    
+	@NotNull String makeYouHaveNoSentRequestsMessage(@NotNull Player to);
+
+	@NotNull String makeHasNoSentRequestsMessage(@NotNull Player to);
     
 	@NotNull String makeYourSentRequestsHeaderMessage(@NotNull Player from, @NotNull Set<Player> requests);
 

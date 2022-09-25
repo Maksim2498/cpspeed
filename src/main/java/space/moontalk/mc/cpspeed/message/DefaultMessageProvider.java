@@ -125,6 +125,22 @@ public class DefaultMessageProvider implements MessageProvider {
         );
     }
 
+    @Override
+	public @NotNull String makeYouHaveNoGotRequestsMessage(@NotNull Player to) {
+        return getFormatedString(
+            "request.list.you-have-no-got",
+            "to", to.getName()
+        );
+    }
+
+    @Override
+	public @NotNull String makeHasNoGotRequestsMessage(@NotNull Player to) {
+        return getFormatedString(
+            "request.list.has-no-got",
+            "to", to.getName()
+        );
+    }
+
 	@Override
 	public @NotNull String makeYourGotRequestsHeaderMessage(@NotNull Player to, @NotNull Set<Player> requests) {
         return getFormatedString(
@@ -149,6 +165,21 @@ public class DefaultMessageProvider implements MessageProvider {
             "request.list.got-item",
             "from",  from.getName(),
             "to",    to.getName()
+        );
+    }
+
+    @Override
+	public @NotNull String makeYouHaveNoSentRequestsMessage(@NotNull Player to) {
+        return getFormatedString(
+            "request.list.you-have-no-sent",
+            "to", to.getName()
+        );
+    }
+
+	public @NotNull String makeHasNoSentRequestsMessage(@NotNull Player to) {
+        return getFormatedString(
+            "request.list.has-no-sent",
+            "to", to.getName()
         );
     }
     
