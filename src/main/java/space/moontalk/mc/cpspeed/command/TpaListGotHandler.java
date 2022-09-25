@@ -1,29 +1,26 @@
 package space.moontalk.mc.cpspeed.command;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import org.jetbrains.annotations.NotNull;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import space.moontalk.mc.commands.route.RouteCall;
-import space.moontalk.mc.commands.route.RouteHandler;
 
 import space.moontalk.mc.cpspeed.teleport.TeleportManager;
 
 // list (got | in) %p?
 
-@Getter
-@AllArgsConstructor
-public class TpaListGotHandler implements RouteHandler {
-    private final @NotNull TeleportManager teleportManager;
+public class TpaListGotHandler extends AbstractTpaListHandler {
+    public TpaListGotHandler(@NotNull TeleportManager teleportManager) {
+        super(teleportManager, "got");
+    }
 
     @Override
-    public void onRoute(@NotNull RouteCall call) throws Exception {
+    protected void handleSpecifiedPlayer(@NotNull CommandSender sender, @NotNull Player player) {
 
     }
 
     @Override
-    public @NotNull String getPermission() {
-        return "cpspeed.tpa.list.got";
+    protected void handleSenderPlayer(@NotNull Player player) {
+
     }
 }

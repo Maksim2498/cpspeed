@@ -172,14 +172,14 @@ public class DefaultMessageProvider implements MessageProvider {
 	public @NotNull String makeYouHaveNoSentRequestsMessage(@NotNull Player to) {
         return getFormatedString(
             "request.list.you-have-no-sent",
-            "to", to.getName()
+            "from", to.getName()
         );
     }
 
 	public @NotNull String makeHasNoSentRequestsMessage(@NotNull Player to) {
         return getFormatedString(
             "request.list.has-no-sent",
-            "to", to.getName()
+            "from", to.getName()
         );
     }
     
