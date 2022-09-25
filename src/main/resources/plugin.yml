@@ -31,27 +31,8 @@ commands:
 
 permissions:
   cpspeed.tpa:
-    description: Gives access to all tpa-commands
+    description: Allowed players to use tpa command
     default: true
-    children:
-      cpspeed.tpa.list: true
-      cpspeed.tpa.to: true
-      cpspeed.tpa.accept: true
-      cpspeed.tpa.deny: true
-
-  cpspeed.tpa.list:
-    description: Gives access to all tpa-list-commands
-    default: true
-    children:
-      cpspeed.tpa.list.got: true
-      cpspeed.tpa.list.sent: true
-
-  cpspeed.tpa.list.got:
-    description: Gives access to all tpa-list-got-commands
-    default: true
-    children:
-      cpspeed.tpa.list.got.self: true
-      cpspeed.tpa.list.got.other: true
 
   cpspeed.tpa.list.got.self:
     description: Allowes players to list got requests
@@ -60,13 +41,6 @@ permissions:
   cpspeed.tpa.list.got.other:
     description: Allowes players to list other players' got requests
     default: op
-
-  cpspeed.tpa.list.sent:
-    description: Gives access to all tpa-list-sent-commands
-    default: true
-    children:
-      cpspeed.tpa.list.sent.self: true
-      cpspeed.tpa.list.sent.other: true
 
   cpspeed.tpa.list.sent.self:
     description: Allowes players to list sent requests
