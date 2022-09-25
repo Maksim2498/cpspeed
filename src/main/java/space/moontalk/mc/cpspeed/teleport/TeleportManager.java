@@ -13,8 +13,9 @@ import lombok.val;
 
 import static space.moontalk.mc.cpspeed.Utility.*;
 import space.moontalk.mc.cpspeed.message.MessageProvider;
+import space.moontalk.mc.cpspeed.message.MessageProviderHolder;
 
-public interface TeleportManager {
+public interface TeleportManager extends MessageProviderHolder {
     int getDelaySeconds();
     int getCoolDownSeconds();
     int getTimeOutSeconds();

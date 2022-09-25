@@ -13,12 +13,13 @@ import space.moontalk.mc.commands.route.RouteCall;
 import space.moontalk.mc.commands.route.RouteHandler;
 
 import space.moontalk.mc.cpspeed.teleport.TeleportManager;
+import space.moontalk.mc.cpspeed.teleport.TeleportManagerHolder;
 
 // accept %p?
 
 @Getter
 @AllArgsConstructor
-public class TpaAcceptHandler implements RouteHandler {
+public class TpaAcceptHandler implements RouteHandler, TeleportManagerHolder {
     private final @NotNull TeleportManager teleportManager;
 
     @Override

@@ -14,12 +14,13 @@ import space.moontalk.mc.commands.route.RouteCall;
 import space.moontalk.mc.commands.route.RouteHandler;
 
 import space.moontalk.mc.cpspeed.teleport.TeleportManager;
+import space.moontalk.mc.cpspeed.teleport.TeleportManagerHolder;
 
 // list (got | in) %p?
 
 @Getter
 @AllArgsConstructor
-public abstract class AbstractTpaListHandler implements RouteHandler {
+public abstract class AbstractTpaListHandler implements RouteHandler, TeleportManagerHolder {
     protected final @NotNull TeleportManager teleportManager;
     private   final @NotNull String          type;
 

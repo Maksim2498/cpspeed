@@ -20,7 +20,7 @@ import space.moontalk.mc.cpspeed.teleport.*;
 
 @Getter
 @Setter
-public class CPSpeed extends JavaPlugin {
+public class CPSpeed extends JavaPlugin implements MessageProviderHolder, TeleportManagerHolder {
     private @Nullable MessageProvider messageProvider;
     private @Nullable TeleportManager teleportManager;
 

@@ -13,12 +13,13 @@ import space.moontalk.mc.commands.route.RouteCall;
 import space.moontalk.mc.commands.route.RouteHandler;
 
 import space.moontalk.mc.cpspeed.teleport.TeleportManager;
+import space.moontalk.mc.cpspeed.teleport.TeleportManagerHolder;
 
 // deny %p?
 
 @Getter
 @AllArgsConstructor
-public class TpaDenyHandler implements RouteHandler {
+public class TpaDenyHandler implements RouteHandler, TeleportManagerHolder {
     private final @NotNull TeleportManager teleportManager;
 
     @Override

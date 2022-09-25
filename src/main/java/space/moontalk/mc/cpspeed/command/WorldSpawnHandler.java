@@ -15,12 +15,13 @@ import space.moontalk.mc.commands.route.RouteCall;
 import space.moontalk.mc.commands.route.RouteHandler;
 
 import space.moontalk.mc.cpspeed.teleport.TeleportManager;
+import space.moontalk.mc.cpspeed.teleport.TeleportManagerHolder;
 
 // %w?
 
 @Getter
 @AllArgsConstructor
-public class WorldSpawnHandler implements RouteHandler {
+public class WorldSpawnHandler implements RouteHandler, TeleportManagerHolder {
     private final @NotNull TeleportManager teleportManager;
 
     @Override
