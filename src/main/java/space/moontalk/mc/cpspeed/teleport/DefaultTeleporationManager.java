@@ -47,7 +47,13 @@ public class DefaultTeleporationManager implements TeleportManager {
     private final int delaySeconds;
 
     @Getter
+    private final int opDelaySeconds;
+
+    @Getter
     private final int coolDownSeconds;
+
+    @Getter
+    private final int opCoolDownSeconds;
 
     @Getter
     private final int timeOutSeconds;
@@ -57,15 +63,19 @@ public class DefaultTeleporationManager implements TeleportManager {
         @NotNull World           defaultWorld,
         @NotNull JavaPlugin      plugin,
         int                      delaySeconds,
+        int                      opDelaySeconds,
         int                      coolDownSeconds,
+        int                      opCoolDownSeconds,
         int                      timeOutSeconds
     ) {
-        this.messageProvider = messageProvider;
-        this.defaultWorld    = defaultWorld;
-        this.plugin          = plugin;
-        this.delaySeconds    = delaySeconds;
-        this.coolDownSeconds = coolDownSeconds;
-        this.timeOutSeconds  = timeOutSeconds;
+        this.messageProvider   = messageProvider;
+        this.defaultWorld      = defaultWorld;
+        this.plugin            = plugin;
+        this.delaySeconds      = delaySeconds;
+        this.opDelaySeconds    = opDelaySeconds;
+        this.coolDownSeconds   = coolDownSeconds;
+        this.opCoolDownSeconds = opCoolDownSeconds;
+        this.timeOutSeconds    = timeOutSeconds;
     }
 
     @Override
@@ -73,6 +83,7 @@ public class DefaultTeleporationManager implements TeleportManager {
         val lastTeleporationSecond = getLastTeleporationSecond(player);
         val currentSecond          = getCurrentSecond();
         val delta                  = currentSecond - lastTeleporationSecond;
+        val coolDownSeconds        = player.isOp() ? opCoolDownSeconds : this.coolDownSeconds;
         val left                   = coolDownSeconds - delta;
         return Math.max(0, left); 
     }
@@ -303,14 +314,16 @@ public class DefaultTeleporationManager implements TeleportManager {
         val fromUniqueId = from.getUniqueId();
         teleporting.add(fromUniqueId);
 
-        val scehduler = Bukkit.getScheduler(); 
-        val status    = new Object() {
+        val scehduler    = Bukkit.getScheduler(); 
+        val delaySeconds = from.isOp() ? opDelaySeconds : this.delaySeconds;
+        val status       = new Object() {
             int leftSeconds = delaySeconds;
             int task;
         };
 
         status.task = scehduler.scheduleSyncRepeatingTask(plugin, () -> {
-            notifyCountDown(from, locationProvider, status.leftSeconds);
+            if (delaySeconds != 0)
+                notifyCountDown(from, locationProvider, status.leftSeconds);
 
             if (status.leftSeconds <= 0) {
                 notifyTeleported(from, locationProvider);
@@ -387,7 +400,9 @@ public class DefaultTeleporationManager implements TeleportManager {
         private @Nullable World           defaultWorld;
         private @Nullable JavaPlugin      plugin;
         private           int             delaySeconds;
+        private           int             opDelaySeconds;
         private           int             coolDownSeconds;
+        private           int             opCoolDownSeconds;
         private           int             timeOutSeconds;
 
         public @NotNull DefaultTeleporationManager build() throws Exception {
@@ -405,7 +420,9 @@ public class DefaultTeleporationManager implements TeleportManager {
                 defaultWorld, 
                 plugin, 
                 delaySeconds, 
+                opDelaySeconds,
                 coolDownSeconds, 
+                opCoolDownSeconds,
                 timeOutSeconds
             );
         }
@@ -456,11 +473,29 @@ public class DefaultTeleporationManager implements TeleportManager {
             return this;
         }
 
+        public @NotNull Builder opDelaySeconds(int opDelaySeconds) {
+            if (opDelaySeconds < 0)
+                throw new IllegalArgumentException("op delay has to be positive");
+
+            this.opDelaySeconds = opDelaySeconds;
+
+            return this;
+        }
+
         public @NotNull Builder coolDownSeconds(int coolDownSeconds) {
             if (coolDownSeconds < 0)
                 throw new IllegalArgumentException("cool down has to be positive");
 
             this.coolDownSeconds = coolDownSeconds;
+
+            return this;
+        }
+
+        public @NotNull Builder opCoolDownSeconds(int opCoolDownSeconds) {
+            if (opCoolDownSeconds < 0)
+                throw new IllegalArgumentException("op cool down has to be positive");
+
+            this.opCoolDownSeconds = opCoolDownSeconds;
 
             return this;
         }

@@ -2,6 +2,7 @@ package space.moontalk.mc.cpspeed.message;
 
 import java.util.Set;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
 
@@ -316,6 +317,36 @@ public class DefaultMessageProvider implements MessageProvider {
             "error.already-teleporting",
             "from", from.getName()
         );
+    }
+
+    @Override
+	public @NotNull String makePlayerNotFoundMessage(@NotNull String player) {
+        return getFormatedString(
+            "error.player-not-found",
+            "player", player 
+        );
+    }
+	
+    @Override
+	public @NotNull String makeWorldNotFoundMessage(@NotNull String world) {
+        return getFormatedString(
+            "error.world-not-found",
+            "world", world 
+        );
+    }
+
+	@Override
+	public @NotNull String makeMissingPermissionMessage(@NotNull CommandSender sender, @NotNull String permission) {
+        return getFormatedString(
+            "error.missing-permission",
+            "sender",     sender.getName(),
+            "permission", permission
+        );
+    }
+
+	@Override
+	public @NotNull String makeInvalidClassMessage(@NotNull Set<Class<?>> classes) {
+        return getString("error.cannot-run");
     }
 
     private @NotNull String getFormatedString(@NotNull String path, @NotNull String ...replacements) {

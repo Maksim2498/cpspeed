@@ -1,28 +1,25 @@
 package space.moontalk.mc.cpspeed;
 
-import java.util.Objects;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.val;
 
-import space.moontalk.mc.commands.CommandHandler;
-import space.moontalk.mc.commands.route.RouteHandler;
+import space.moontalk.mc.commands.DefaultMultiCommandHandler;
+import space.moontalk.mc.commands.ParsingMultiCommandHandler;
+import space.moontalk.mc.commands.route.ParsingRouter;
 
 import space.moontalk.mc.cpspeed.command.*;
 import space.moontalk.mc.cpspeed.message.*;
 import space.moontalk.mc.cpspeed.teleport.*;
 
 @Getter
-@Setter
 public class CPSpeed extends JavaPlugin implements MessageProviderHolder, TeleportManagerHolder {
-    private @Nullable MessageProvider messageProvider;
-    private @Nullable TeleportManager teleportManager;
+    private @Nullable MessageProvider                           messageProvider;
+    private @Nullable TeleportManager                           teleportManager;
+    private @Nullable ParsingMultiCommandHandler<ParsingRouter> commandHandler;
 
     @Override
     public void onEnable() {
@@ -30,10 +27,16 @@ public class CPSpeed extends JavaPlugin implements MessageProviderHolder, Telepo
             setupConfig();
             setupMessageProvider();
             setupTeleportManager();
+            setupCommandHandler();
             setupCommands();
         } catch (Exception exception) {
-            getLogger().info(exception.getMessage());
-            getServer().getPluginManager().disablePlugin(this);
+            val message = exception.getMessage();
+            val logger  = getLogger();
+            logger.info(message);
+
+            val server        = getServer();
+            val pluginManager = server.getPluginManager();
+            pluginManager.disablePlugin(this);
         }
     }
 
@@ -53,55 +56,66 @@ public class CPSpeed extends JavaPlugin implements MessageProviderHolder, Telepo
                                  .build();
     }
 
+    private void setupCommandHandler() {
+        commandHandler = new DefaultMultiCommandHandler(this);
+
+        val messageProviderManager = commandHandler.getMessageProviderManager();
+        messageProviderManager.clearMessageProviders();
+        messageProviderManager.setMessageProvider(MessageProvider.class, messageProvider); 
+
+        val placeholderManager = commandHandler.getPlaceholderManager();
+
+        val tpaToPlayerPlaceholder = new TpaToPlayerPlaceholder(messageProviderManager, teleportManager);
+        placeholderManager.setPlaceholder('t', tpaToPlayerPlaceholder);
+
+        val tpaRequestPlayerPlaceholder = new TpaRequestPlayerPlaceholder(messageProviderManager, teleportManager);
+        placeholderManager.setPlaceholder('r', tpaRequestPlayerPlaceholder);
+    }
+
     private void setupCommands() throws Exception {
-        setupSpawnCommand();
-        setupWorldSpawnCommand();
-        setupTpaCommand();
-    }
+        // Spawn:
 
-    private void setupSpawnCommand() throws Exception {
-        val handler = new SpawnHandler(teleportManager);
-        setupCommandRouteHandler("spawn", "", handler);
-    }
+        val spawnHandler = new SpawnHandler(teleportManager);
+        commandHandler.addCommandRoute("spawn", spawnHandler);
 
-    private void setupWorldSpawnCommand() throws Exception {
-        val handler = new WorldSpawnHandler(teleportManager);
-        setupCommandRouteHandler("worldspawn", "%w?", handler);
-    }
+        // World Spawn:
 
-    private void setupCommandRouteHandler(
-        @NotNull String       commandName,
-        @NotNull String       route,
-        @NotNull RouteHandler routeHandler
-    ) throws Exception {
-        val commandHandler = new CommandHandler();
-        val router         = commandHandler.getRouter();
-        router.addRoute(route, routeHandler);
+        val worldSpawnHandler = new WorldSpawnHandler(teleportManager);
+        commandHandler.addCommandRoute("worldspawn %w?", worldSpawnHandler);
 
-        val command = Objects.requireNonNull(getCommand(commandName));
-        commandHandler.attach(command);
-    }
+        // Tpa:
 
-    private void setupTpaCommand() throws Exception {
-        val commandHandler = new CommandHandler();
-        val router         = commandHandler.getRouter();
+        // - List:
 
-        val tpaListGotHandler = new TpaListGotHandler(teleportManager);
-        router.addRoute("list (got | in) %p?", tpaListGotHandler);
+        // -- Got:
 
-        val tpaListSentHandler = new TpaListSentHandler(teleportManager);
-        router.addRoute("list (sent | out) %p?", tpaListSentHandler);
+        val tpaListGotOtherHandler = new TpaListGotOtherHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa list (got | in) %p", tpaListGotOtherHandler);
+
+        val tpaListGotSelfHandler = new TpaListGotSelfHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa list (got | in)", tpaListGotSelfHandler);
+
+        // -- Sent:
+
+        val tpaListSentOtherHandler = new TpaListSentOtherHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa list (sent | out) %p", tpaListSentOtherHandler);
+
+        val tpaListSentSelfHandler = new TpaListSentSelfHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa list (sent | out)", tpaListSentSelfHandler);
+
+        // - To:
 
         val tpaToHandler = new TpaToHandler(teleportManager);
-        router.addRoute("to? %p", tpaToHandler); 
+        commandHandler.addCommandRoute("tpa to? %t", tpaToHandler); 
+
+        // - Accept:
 
         val tpaAcceptHandler = new TpaAcceptHandler(teleportManager);
-        router.addRoute("accept %p?", tpaAcceptHandler); 
+        commandHandler.addCommandRoute("tpa accept %r?", tpaAcceptHandler); 
+
+        // - Deny:
 
         val tpaDenyHandler = new TpaDenyHandler(teleportManager);
-        router.addRoute("deny %p?", tpaDenyHandler); 
-
-        val command = Objects.requireNonNull(getCommand("tpa"));
-        commandHandler.attach(command);
+        commandHandler.addCommandRoute("tpa deny %r?", tpaDenyHandler); 
     }
 }

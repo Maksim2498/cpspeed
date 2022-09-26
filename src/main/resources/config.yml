@@ -2,7 +2,9 @@ default-world: world
 
 timing:
   delay: 5
+  op-delay: 0
   cool-down: 150
+  op-cool-down: 0
   time-out: 30
 
 message:
@@ -44,6 +46,10 @@ message:
 
   error:
     cannot-send-request-to-your-self: "§cYou cannot send request to your self"
-    wait-until-cool-down-over: "§cWait until your cool down is over.\n<left> remaining"
+    wait-until-cool-down-over: "§cWait until your cool down is over\n<left> remaining"
     missing-bed: "§cYour bed isn't available now" 
     already-teleporting: "§cYou are already teleporting"
+    player-not-found: "§cPlayer <player> not found"
+    world-not-found: "§cWorld <world> not found"
+    missing-permission: "§cYou have no permission"
+    cannot-run: "§cYou cannot run this command"

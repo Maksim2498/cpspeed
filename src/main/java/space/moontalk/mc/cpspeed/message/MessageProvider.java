@@ -3,15 +3,25 @@ package space.moontalk.mc.cpspeed.message;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.NotNull;
 
 import lombok.val;
 
+import space.moontalk.mc.commands.message.placeholder.PlayerNotFoundMessageProvider;
+import space.moontalk.mc.commands.message.placeholder.WorldNotFoundMessageProvider;
+import space.moontalk.mc.commands.message.route.InvalidClassMessageProvider;
+import space.moontalk.mc.commands.message.route.MissingPermissionMessageProvider;
+
 import static space.moontalk.mc.cpspeed.Utility.*;
 
-public interface MessageProvider extends SecondsMessageProvider {
+public interface MessageProvider extends SecondsMessageProvider,
+										 PlayerNotFoundMessageProvider,
+										 WorldNotFoundMessageProvider,
+										 MissingPermissionMessageProvider,
+										 InvalidClassMessageProvider {
     // Request:
 
 	// - Already Sent:
@@ -901,4 +911,24 @@ public interface MessageProvider extends SecondsMessageProvider {
 	}
     
 	@NotNull String makeAlreadyTeleportingMessage(@NotNull Player from);
+
+	// - Player Not Found:
+
+	@Override
+	@NotNull String makePlayerNotFoundMessage(@NotNull String player);
+	
+	// - World Not Found:
+
+	@Override
+	@NotNull String makeWorldNotFoundMessage(@NotNull String world);
+
+	// - You Have No Permission:
+	
+	@Override
+	@NotNull String makeMissingPermissionMessage(@NotNull CommandSender sender, @NotNull String permission);
+
+	// - Cannot Run:
+	
+	@Override
+	@NotNull String makeInvalidClassMessage(@NotNull Set<Class<?>> classes);
 }

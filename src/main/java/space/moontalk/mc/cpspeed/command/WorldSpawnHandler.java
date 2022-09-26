@@ -1,7 +1,7 @@
 
 package space.moontalk.mc.cpspeed.command;
 
-import java.util.List;
+import java.util.Set;
 
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -17,11 +17,12 @@ import space.moontalk.mc.commands.route.RouteHandler;
 import space.moontalk.mc.cpspeed.teleport.TeleportManager;
 import space.moontalk.mc.cpspeed.teleport.TeleportManagerHolder;
 
-// %w?
+// worldspawn %w?
 
 @Getter
 @AllArgsConstructor
-public class WorldSpawnHandler implements RouteHandler, TeleportManagerHolder {
+public class WorldSpawnHandler implements RouteHandler, 
+                                          TeleportManagerHolder {
     private final @NotNull TeleportManager teleportManager;
 
     @Override
@@ -36,7 +37,7 @@ public class WorldSpawnHandler implements RouteHandler, TeleportManagerHolder {
     }
 
     @Override
-    public @NotNull List<Class<?>> getClasses() {
-        return List.of(Player.class);
+    public @NotNull Set<Class<?>> getClasses() {
+        return Set.of(Player.class);
     }
 }

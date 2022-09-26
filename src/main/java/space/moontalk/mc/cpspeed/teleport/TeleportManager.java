@@ -17,7 +17,9 @@ import space.moontalk.mc.cpspeed.message.MessageProviderHolder;
 
 public interface TeleportManager extends MessageProviderHolder {
     int getDelaySeconds();
+    int getOpDelaySeconds();
     int getCoolDownSeconds();
+    int getOpCoolDownSeconds();
     int getTimeOutSeconds();
     @NotNull MessageProvider getMessageProvider();
 
