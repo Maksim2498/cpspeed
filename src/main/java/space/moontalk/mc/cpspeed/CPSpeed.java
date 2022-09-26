@@ -16,28 +16,20 @@ import space.moontalk.mc.cpspeed.message.*;
 import space.moontalk.mc.cpspeed.teleport.*;
 
 @Getter
-public class CPSpeed extends JavaPlugin implements MessageProviderHolder, TeleportManagerHolder {
+public class CPSpeed extends    JavaPlugin 
+                     implements MessageProviderHolder, 
+                                TeleportManagerHolder {
     private @Nullable MessageProvider                           messageProvider;
     private @Nullable TeleportManager                           teleportManager;
     private @Nullable ParsingMultiCommandHandler<ParsingRouter> commandHandler;
 
     @Override
     public void onEnable() {
-        try {
-            setupConfig();
-            setupMessageProvider();
-            setupTeleportManager();
-            setupCommandHandler();
-            setupCommands();
-        } catch (Exception exception) {
-            val message = exception.getMessage();
-            val logger  = getLogger();
-            logger.info(message);
-
-            val server        = getServer();
-            val pluginManager = server.getPluginManager();
-            pluginManager.disablePlugin(this);
-        }
+        setupConfig();
+        setupMessageProvider();
+        setupTeleportManager();
+        setupCommandHandler();
+        setupCommands();
     }
 
     private void setupConfig() {
@@ -48,7 +40,7 @@ public class CPSpeed extends JavaPlugin implements MessageProviderHolder, Telepo
         messageProvider = new DefaultMessageProvider(getConfig());
     }
 
-    private void setupTeleportManager() throws Exception {
+    private void setupTeleportManager() {
         val builder = new DefaultTeleporationManager.Builder();
 
         teleportManager = builder.messageProvider(messageProvider)
@@ -72,7 +64,7 @@ public class CPSpeed extends JavaPlugin implements MessageProviderHolder, Telepo
         placeholderManager.setPlaceholder('r', tpaRequestPlayerPlaceholder);
     }
 
-    private void setupCommands() throws Exception {
+    private void setupCommands() {
         // Spawn:
 
         val spawnHandler = new SpawnHandler(teleportManager);

@@ -405,15 +405,15 @@ public class DefaultTeleporationManager implements TeleportManager {
         private           int             opCoolDownSeconds;
         private           int             timeOutSeconds;
 
-        public @NotNull DefaultTeleporationManager build() throws Exception {
+        public @NotNull DefaultTeleporationManager build() {
             if (messageProvider == null)
-                throw new Exception("message provider isn't set");
+                throw new IllegalArgumentException("message provider isn't set");
 
             if (defaultWorld == null)
-                throw new Exception("default world isn't set");
+                throw new IllegalArgumentException("default world isn't set");
 
             if (plugin == null)
-                throw new Exception("plugin isn't set");
+                throw new IllegalArgumentException("plugin isn't set");
 
             return new DefaultTeleporationManager(
                 messageProvider, 
