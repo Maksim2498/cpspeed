@@ -11,7 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 import lombok.val;
 
-import static space.moontalk.mc.cpspeed.Utility.*;
+import static space.moontalk.mc.more.bukkit.MoreBukkit.*;
+
 import space.moontalk.mc.cpspeed.message.MessageProvider;
 import space.moontalk.mc.cpspeed.message.MessageProviderHolder;
 
@@ -28,13 +29,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Is Over:
 
     default boolean isCoolDownOver(@NotNull String playerName) {
-        val player = getPlayer(playerName);
-        return isCoolDownOver(player);
+        return isCoolDownOver(getPlayer(playerName));
     }
 
     default boolean isCoolDownOver(@NotNull UUID playerUniqueId) {
-        val player = getPlayer(playerUniqueId);
-        return isCoolDownOver(player);
+        return isCoolDownOver(getPlayer(playerUniqueId));
     }
 
     default boolean isCoolDownOver(@NotNull Player player) {
@@ -44,13 +43,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Get:
 
     default int getCoolDownSeconds(@NotNull String playerName) {
-        val player = getPlayer(playerName);
-        return getCoolDownSeconds(player);
+        return getCoolDownSeconds(getPlayer(playerName));
     }
 
     default int getCoolDownSeconds(@NotNull UUID playerUniqueId) {
-        val player = getPlayer(playerUniqueId);
-        return getCoolDownSeconds(player);
+        return getCoolDownSeconds(getPlayer(playerUniqueId));
     }
 
     int getCoolDownSeconds(@NotNull Player player);
@@ -58,13 +55,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // Spawn:
 
     default void teleportToSpawn(@NotNull String playerName) throws Exception {
-        val player = getPlayer(playerName);
-        teleportToSpawn(player);
+        teleportToSpawn(getPlayer(playerName));
     }
 
     default void teleportToSpawn(@NotNull UUID playerUniqueId) throws Exception {
-        val player = getPlayer(playerUniqueId);
-        teleportToSpawn(player);
+        teleportToSpawn(getPlayer(playerUniqueId));
     }
 
     default void teleportToSpawn(@NotNull Player player) throws Exception {
@@ -81,13 +76,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Default:
 
     default void teleportToWorldSpawn(@NotNull String playerName) throws Exception {
-        val player = getPlayer(playerName);
-        teleportToWorldSpawn(player);
+        teleportToWorldSpawn(getPlayer(playerName));
     }
 
     default void teleportToWorldSpawn(@NotNull UUID playerUniqueId) throws Exception {
-        val player = getPlayer(playerUniqueId);
-        teleportToWorldSpawn(player);
+        teleportToWorldSpawn(getPlayer(playerUniqueId));
     }
 
     default void teleportToWorldSpawn(@NotNull Player player) throws Exception {
@@ -98,48 +91,39 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Specific:
 
     default void teleportToWorldSpawn(@NotNull String playerName, @NotNull String worldName) throws Exception {
-        val world = getWorld(worldName);
-        teleportToWorldSpawn(playerName, world);
+        teleportToWorldSpawn(playerName, getWorld(worldName));
     }
 
     default void teleportToWorldSpawn(@NotNull String playerName, @NotNull UUID worldUniqueId) throws Exception {
-        val world = getWorld(worldUniqueId);
-        teleportToWorldSpawn(playerName, world);
+        teleportToWorldSpawn(playerName, getWorld(worldUniqueId));
     }
 
     default void teleportToWorldSpawn(@NotNull String playerName, @NotNull World world) throws Exception {
-        val player = getPlayer(playerName);
-        teleportToWorldSpawn(player, world);
+        teleportToWorldSpawn(getPlayer(playerName), world);
     }
 
     default void teleportToWorldSpawn(@NotNull UUID playerUniqueId, @NotNull String worldName) throws Exception {
-        val world = getWorld(worldName);
-        teleportToWorldSpawn(playerUniqueId, world);
+        teleportToWorldSpawn(playerUniqueId, getWorld(worldName));
     }
 
     default void teleportToWorldSpawn(@NotNull UUID playerUniqueId, @NotNull UUID worldUniqueId) throws Exception {
-        val world = getWorld(worldUniqueId);
-        teleportToWorldSpawn(playerUniqueId, world);
+        teleportToWorldSpawn(playerUniqueId, getWorld(worldUniqueId));
     }
 
     default void teleportToWorldSpawn(@NotNull UUID playerUniqueId, @NotNull World world) throws Exception {
-        val player = getPlayer(playerUniqueId);
-        teleportToWorldSpawn(player, world);
+        teleportToWorldSpawn(getPlayer(playerUniqueId), world);
     }
 
     default void teleportToWorldSpawn(@NotNull Player player, @NotNull String worldName) throws Exception {
-        val world = getWorld(worldName);
-        teleportToWorldSpawn(player, world);
+        teleportToWorldSpawn(player, getWorld(worldName));
     }
 
     default void teleportToWorldSpawn(@NotNull Player player, @NotNull UUID worldUniqueId) throws Exception {
-        val world = getWorld(worldUniqueId);
-        teleportToWorldSpawn(player, world);
+        teleportToWorldSpawn(player, getWorld(worldUniqueId));
     }
 
     default void teleportToWorldSpawn(@NotNull Player player, @NotNull World world) throws Exception {
-        val spawn = world.getSpawnLocation();
-        teleport(player, spawn, "world spawn");
+        teleport(player, world.getSpawnLocation(), "world spawn");
     }
 
     @NotNull World getDefaultWorld();
@@ -149,13 +133,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Can:
 
     default boolean canTeleport(@NotNull String playerName) {
-        val player = getPlayer(playerName);
-        return canTeleport(player);
+        return canTeleport(getPlayer(playerName));
     }
 
     default boolean canTeleport(@NotNull UUID playerUniqueId) {
-        val player = getPlayer(playerUniqueId);
-        return canTeleport(player);
+        return canTeleport(getPlayer(playerUniqueId));
     }
 
     default boolean canTeleport(@NotNull Player player) {
@@ -165,13 +147,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Is:
 
     default boolean isTeleporting(@NotNull String playerName) {
-        val player = getPlayer(playerName);
-        return isTeleporting(player);
+        return isTeleporting(getPlayer(playerName));
     }
 
     default boolean isTeleporting(@NotNull UUID playerUniqueId) {
-        val player = getPlayer(playerUniqueId);
-        return isTeleporting(player);
+        return isTeleporting(getPlayer(playerUniqueId));
     }
 
     boolean isTeleporting(@NotNull Player player);
@@ -179,13 +159,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Unnamed:
 
     default void teleport(@NotNull String playerName, @NotNull Location location) throws Exception {
-        val player = getPlayer(playerName);
-        teleport(player, location);
+        teleport(getPlayer(playerName), location);
     }
 
     default void teleport(@NotNull UUID playerUniqueId, @NotNull Location location) throws Exception {
-        val player = getPlayer(playerUniqueId);
-        teleport(player, location);
+        teleport(getPlayer(playerUniqueId), location);
     }
 
     void teleport(@NotNull Player player, @NotNull Location location) throws Exception;
@@ -197,8 +175,7 @@ public interface TeleportManager extends MessageProviderHolder {
         @NotNull Location location,
         @NotNull String   locationName
     ) throws Exception {
-        val player = getPlayer(playerName);
-        teleport(player, location);
+        teleport(getPlayer(playerName), location);
     }
 
     default void teleport(
@@ -206,8 +183,7 @@ public interface TeleportManager extends MessageProviderHolder {
         @NotNull Location location,
         @NotNull String   locationName
     ) throws Exception {
-        val player = getPlayer(playerUniqueId);
-        teleport(player, location, locationName);
+        teleport(getPlayer(playerUniqueId), location, locationName);
     }
 
     void teleport(@NotNull Player player, @NotNull Location location, @NotNull String locationName) throws Exception;
@@ -215,47 +191,35 @@ public interface TeleportManager extends MessageProviderHolder {
     // Request:
 
     default void sendRequest(@NotNull String fromName, @NotNull String toName) throws Exception {
-        val from = getPlayer(fromName);
-        val to   = getPlayer(toName);
-        sendRequest(from, to);
+        sendRequest(getPlayer(fromName), getPlayer(toName));
     }
 
     default void sendRequest(@NotNull String fromName, @NotNull UUID toUniqueId) throws Exception {
-        val from = getPlayer(fromName);
-        val to   = getPlayer(toUniqueId);
-        sendRequest(from, to);
+        sendRequest(getPlayer(fromName), getPlayer(toUniqueId));
     }
 
     default void sendRequest(@NotNull String fromName, @NotNull Player to) throws Exception {
-        val from = getPlayer(fromName);
-        sendRequest(from, to);
+        sendRequest(getPlayer(fromName), to);
     }
 
     default void sendRequest(@NotNull UUID fromUniqueId, @NotNull String toName) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        val to   = getPlayer(toName);
-        sendRequest(from, to);
+        sendRequest(getPlayer(fromUniqueId), getPlayer(toName));
     }
 
     default void sendRequest(@NotNull UUID fromUniqueId, @NotNull UUID toUniqueId) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        val to   = getPlayer(toUniqueId);
-        sendRequest(from, to);
+        sendRequest(getPlayer(fromUniqueId), getPlayer(toUniqueId));
     }
 
     default void sendRequest(@NotNull UUID fromUniqueId, @NotNull Player to) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        sendRequest(from, to);
+        sendRequest(getPlayer(fromUniqueId), to);
     }
 
     default void sendRequest(@NotNull Player from, @NotNull String toName) throws Exception {
-        val to = getPlayer(toName);
-        sendRequest(from, to);
+        sendRequest(from, getPlayer(toName));
     }
 
     default void sendRequest(@NotNull Player from, @NotNull UUID toUniqueId) throws Exception {
-        val to = getPlayer(toUniqueId);
-        sendRequest(from, to);
+        sendRequest(from, getPlayer(toUniqueId));
     }
 
     void sendRequest(@NotNull Player from, @NotNull Player to) throws Exception;
@@ -265,65 +229,50 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Only:
 
     default void acceptRequest(@NotNull String toName) throws Exception {
-        val to = getPlayer(toName);
-        acceptRequest(to);
+        acceptRequest(getPlayer(toName));
     }
     
     default void acceptRequest(@NotNull UUID toUniqueId) throws Exception {
-        val to = getPlayer(toUniqueId);
-        acceptRequest(to);
+        acceptRequest(getPlayer(toUniqueId));
     }
     
 
     default void acceptRequest(@NotNull Player to) throws Exception {
-        val from = getTheOnlyRequest(to);
-        acceptRequest(from, to);
+        acceptRequest(getTheOnlyRequest(to), to);
     }
 
     // - Specific:
 
     default void acceptRequest(@NotNull String fromName, @NotNull String toName) throws Exception {
-        val from = getPlayer(fromName);
-        val to   = getPlayer(toName);
-        acceptRequest(from, to);
+        acceptRequest(getPlayer(fromName), getPlayer(toName));
     }
 
     default void acceptRequest(@NotNull String fromName, @NotNull UUID toUniqueId) throws Exception {
-        val from = getPlayer(fromName);
-        val to   = getPlayer(toUniqueId);
-        acceptRequest(from, to);
+        acceptRequest(getPlayer(fromName), getPlayer(toUniqueId));
     }
 
     default void acceptRequest(@NotNull String fromName, @NotNull Player to) throws Exception {
-        val from = getPlayer(fromName);
-        acceptRequest(from, to);
+        acceptRequest(getPlayer(fromName), to);
     }
 
     default void acceptRequest(@NotNull UUID fromUniqueId, @NotNull String toName) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        val to   = getPlayer(toName);
-        acceptRequest(from, to);
+        acceptRequest(getPlayer(fromUniqueId), getPlayer(toName));
     }
 
     default void acceptRequest(@NotNull UUID fromUniqueId, @NotNull UUID toUniqueId) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        val to   = getPlayer(toUniqueId);
-        acceptRequest(from, to);
+        acceptRequest(getPlayer(fromUniqueId), getPlayer(toUniqueId));
     }
 
     default void acceptRequest(@NotNull UUID fromUniqueId, @NotNull Player to) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        acceptRequest(from, to);
+        acceptRequest(getPlayer(fromUniqueId), to);
     }
 
     default void acceptRequest(@NotNull Player from, @NotNull String toName) throws Exception {
-        val to = getPlayer(toName);
-        acceptRequest(from, to);
+        acceptRequest(from, getPlayer(toName));
     }
 
     default void acceptRequest(@NotNull Player from, @NotNull UUID toUniqueId) throws Exception {
-        val to = getPlayer(toUniqueId);
-        acceptRequest(from, to);
+        acceptRequest(from, getPlayer(toUniqueId));
     }
 
     void acceptRequest(@NotNull Player from, @NotNull Player to) throws Exception;
@@ -333,64 +282,49 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Only:
 
     default void denyRequest(@NotNull String toName) throws Exception {
-        val to = getPlayer(toName);
-        denyRequest(to);
+        denyRequest(getPlayer(toName));
     }
     
     default void denyRequest(@NotNull UUID toUniqueId) throws Exception {
-        val to = getPlayer(toUniqueId);
-        denyRequest(to);
+        denyRequest(getPlayer(toUniqueId));
     }
 
     default void denyRequest(@NotNull Player to) throws Exception {
-        val from = getTheOnlyRequest(to);
-        denyRequest(from, to);
+        denyRequest(getTheOnlyRequest(to), to);
     }
 
     // - Specific:
 
     default void denyRequest(@NotNull String fromName, @NotNull String toName) throws Exception {
-        val from = getPlayer(fromName);
-        val to   = getPlayer(toName);
-        denyRequest(from, to);
+        denyRequest(getPlayer(fromName), getPlayer(toName));
     }
 
     default void denyRequest(@NotNull String fromName, @NotNull UUID toUniqueId) throws Exception {
-        val from = getPlayer(fromName);
-        val to   = getPlayer(toUniqueId);
-        denyRequest(from, to);
+        denyRequest(getPlayer(fromName), getPlayer(toUniqueId));
     }
 
     default void denyRequest(@NotNull String fromName, @NotNull Player to) throws Exception {
-        val from = getPlayer(fromName);
-        denyRequest(from, to);
+        denyRequest(getPlayer(fromName), to);
     }
 
     default void denyRequest(@NotNull UUID fromUniqueId, @NotNull String toName) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        val to   = getPlayer(toName);
-        denyRequest(from, to);
+        denyRequest(getPlayer(fromUniqueId), getPlayer(toName));
     }
 
     default void denyRequest(@NotNull UUID fromUniqueId, @NotNull UUID toUniqueId) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        val to   = getPlayer(toUniqueId);
-        denyRequest(from, to);
+        denyRequest(getPlayer(fromUniqueId), getPlayer(toUniqueId));
     }
 
     default void denyRequest(@NotNull UUID fromUniqueId, @NotNull Player to) throws Exception {
-        val from = getPlayer(fromUniqueId);
-        denyRequest(from, to);
+        denyRequest(getPlayer(fromUniqueId), to);
     }
 
     default void denyRequest(@NotNull Player from, @NotNull String toName) throws Exception {
-        val to = getPlayer(toName);
-        denyRequest(from, to);
+        denyRequest(from, getPlayer(toName));
     }
 
     default void denyRequest(@NotNull Player from, @NotNull UUID toUniqueId) throws Exception {
-        val to = getPlayer(toUniqueId);
-        denyRequest(from, to);
+        denyRequest(from, getPlayer(toUniqueId));
     }
 
     void denyRequest(@NotNull Player from, @NotNull Player to) throws Exception;
@@ -400,13 +334,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Got:
 
     default @NotNull Set<Player> getGotRequests(@NotNull String playerName) {
-        val player = getPlayer(playerName);
-        return getGotRequests(player);
+        return getGotRequests(getPlayer(playerName));
     }
 
     default @NotNull Set<Player> getGotRequests(@NotNull UUID toUniqueId) {
-        val to = getPlayer(toUniqueId);
-        return getGotRequests(to);
+        return getGotRequests(getPlayer(toUniqueId));
     }
 
     @NotNull Set<Player> getGotRequests(@NotNull Player to);
@@ -414,13 +346,11 @@ public interface TeleportManager extends MessageProviderHolder {
     // - Sent:
 
     default @NotNull Set<Player> getSentRequests(@NotNull String fromName) {
-        val from = getPlayer(fromName);
-        return getSentRequests(from);
+        return getSentRequests(getPlayer(fromName));
     }
 
     default @NotNull Set<Player> getSentRequests(@NotNull UUID fromUniqueId) {
-        val from = getPlayer(fromUniqueId);
-        return getSentRequests(from);
+        return getSentRequests(getPlayer(fromUniqueId));
     }
 
     @NotNull Set<Player> getSentRequests(@NotNull Player from);

@@ -1,5 +1,11 @@
 default-world: world
 
+persistence:
+  method: fs
+  dir: warps
+  autosave: true
+  autosave-interval: 10
+
 timing:
   delay: 5
   op-delay: 0

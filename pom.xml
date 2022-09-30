@@ -53,6 +53,16 @@
             <artifactId>placeholders</artifactId>
             <version>1.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>space.moontalk.mc.more</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>space.moontalk.more</groupId>
+            <artifactId>collections</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>

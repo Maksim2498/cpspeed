@@ -1,11 +1,17 @@
 package space.moontalk.mc.cpspeed;
 
+import java.io.IOException;
+
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import lombok.Getter;
 import lombok.val;
+
+import space.moontalk.mc.more.bukkit.MoreBukkit;
 
 import space.moontalk.mc.commands.DefaultMultiCommandHandler;
 import space.moontalk.mc.commands.ParsingMultiCommandHandler;
@@ -13,23 +19,43 @@ import space.moontalk.mc.commands.route.ParsingRouter;
 
 import space.moontalk.mc.cpspeed.command.*;
 import space.moontalk.mc.cpspeed.message.*;
+import space.moontalk.mc.cpspeed.persistence.*;
 import space.moontalk.mc.cpspeed.teleport.*;
 
 @Getter
 public class CPSpeed extends    JavaPlugin 
                      implements MessageProviderHolder, 
+                                PersistenceManagerHolder,
                                 TeleportManagerHolder {
     private @Nullable MessageProvider                           messageProvider;
     private @Nullable TeleportManager                           teleportManager;
+    private @Nullable PersistenceManager                        persistenceManager;
     private @Nullable ParsingMultiCommandHandler<ParsingRouter> commandHandler;
 
     @Override
     public void onEnable() {
-        setupConfig();
-        setupMessageProvider();
-        setupTeleportManager();
-        setupCommandHandler();
-        setupCommands();
+        try {
+            setupConfig();
+            setupMessageProvider();
+            setupPersistenceManager();
+            setupTeleportManager();
+            setupCommandHandler();
+            setupCommands();
+        } catch (IOException | ClassNotFoundException exception) {
+            reactCriticalError(exception);
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        if (persistenceManager == null) 
+            return;
+
+        try {
+            persistenceManager.save();
+        } catch (IOException exception) {
+            reactError(exception);
+        }
     }
 
     private void setupConfig() {
@@ -38,6 +64,46 @@ public class CPSpeed extends    JavaPlugin
 
     private void setupMessageProvider() {
         messageProvider = new DefaultMessageProvider(getConfig());
+    }
+
+    private void setupPersistenceManager() throws ClassNotFoundException, IOException {
+        persistenceManager = createPersistanceManager();
+        persistenceManager.load();
+        setupAutosave();
+    }
+
+    private @NotNull PersistenceManager createPersistanceManager() throws IOException {
+        val config = getConfig();
+        val method = config.getString("persistence.method");
+
+        return switch (method) {
+            case "fs" -> new FilePersistenceManager(messageProvider, getDataFolder());
+
+            default -> {
+                val message = String.format("invalid persistence method value: %s", method);
+                throw new RuntimeException(message);
+            }
+        };
+    }
+
+    private void setupAutosave() {
+        val config   = getConfig();
+        val autosave = config.getBoolean("persistence.autosave");
+
+        if (!autosave)
+            return;
+
+        val autosaveIntervalSeconds = config.getInt("persistence.autosave-interval");
+        val autosaveIntervalTicks   = autosaveIntervalSeconds * MoreBukkit.SECOND_TICKS;
+        val scheduler               = Bukkit.getScheduler();
+        scheduler.scheduleSyncRepeatingTask(this, () -> {
+            try {
+                if (persistenceManager != null)
+                    persistenceManager.save();
+            } catch (IOException exception) {
+                reactError(exception);
+            }
+        }, autosaveIntervalTicks, autosaveIntervalTicks);
     }
 
     private void setupTeleportManager() {
@@ -109,5 +175,21 @@ public class CPSpeed extends    JavaPlugin
 
         val tpaDenyHandler = new TpaDenyHandler(teleportManager);
         commandHandler.addCommandRoute("tpa deny %r?", tpaDenyHandler); 
+    }
+
+    private void reactCriticalError(@NotNull Exception exception) {
+        val logger  = getLogger();
+        val message = String.format("Critical error occurred:%s\nDisabling plugin...", exception.getMessage());
+        logger.info(message);
+
+        val server        = getServer();
+        val pluginManager = server.getPluginManager();
+        pluginManager.disablePlugin(this);
+    }
+
+    private void reactError(@NotNull Exception exception) {
+        val logger  = getLogger();
+        val message = String.format("Error occurred:%s", exception.getMessage());
+        logger.info(message);
     }
 }

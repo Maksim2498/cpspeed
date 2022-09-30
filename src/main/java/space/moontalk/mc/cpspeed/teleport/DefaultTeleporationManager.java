@@ -24,7 +24,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.val;
 
-import static space.moontalk.mc.cpspeed.Utility.*;
+import static space.moontalk.mc.more.bukkit.MoreBukkit.*;
+
 import space.moontalk.mc.cpspeed.message.MessageProvider;
 import space.moontalk.mc.cpspeed.message.Time;
 
