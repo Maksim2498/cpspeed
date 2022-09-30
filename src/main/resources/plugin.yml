@@ -8,15 +8,39 @@ api-version: 1.13
 
 commands:
   tpa:
-    description: Teleports you to another player
+    description: Teleports you to specified player
     permission: cpspeed.tpa
     usage: |
       /<command> list sent
       /<command> list got
-      /<command> to <player name>
-      /<command> <player name>
-      /<command> accept [player name]
-      /<command> deny [player name]
+      /<command> [to] <player name>
+      /<command> accept [<player name>]
+      /<command> deny [<player name>]
+
+  warp:
+    description: Teleports you to specified warp
+    permission: cpspeed.warp
+    usage: |
+      /<command> list [all]
+      /<command> list global
+      /<command> list my 
+      /<command> list <player name>
+
+      /<command> [to] [global] <warp name>
+      /<command> [to] my <warp name>
+      /<command> [to] <warp name> <player name>
+
+      /<command> set global [<warp name>]
+      /<command> set [my] <warp name>
+      /<command> set [<warp name>] [<player name>]
+
+      /<command> (remove | rm) global <warp name>
+      /<command> (remove | rm) [my] <warp name>
+      /<command> (remove | rm) <warp name> <player name>
+
+      /<command> rename global <warp name>
+      /<command> rename [my] <warp name>
+      /<command> rename <warp name> <player name>
 
   spawn:
     description: Teleports you to your spawn
@@ -26,7 +50,7 @@ commands:
   worldspawn:
     description: Teleports you to worldspawn
     permission: cpspeed.worldspawn
-    usage: /<command> [world name]
+    usage: /<command> [<world name>]
     aliases: [wspawn]
 
 permissions:

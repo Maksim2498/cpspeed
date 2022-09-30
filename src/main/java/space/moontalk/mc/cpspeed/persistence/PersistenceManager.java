@@ -180,6 +180,32 @@ public interface PersistenceManager {
 
     // Remove:
 
+    // - Global:
+
+    default boolean removeGlobalWarp(@NotNull String warpName) {
+        val entries = getGlobalEntries();
+        return entries.removeIf(e -> warpName.equalsIgnoreCase(e.getName()));
+    }
+
+    // - Player:
+
+    default boolean removePlayerWarp(@NotNull String playerName, @NotNull String warpName) {
+        return removePlayerWarp(getPlayerUniqueId(playerName), warpName);
+    }
+
+    default boolean removePlayerWarp(@NotNull Player player, @NotNull String warpName) {
+        return removePlayerWarp(player.getUniqueId(), warpName);
+    }
+
+    default boolean removePlayerWarp(@NotNull OfflinePlayer player, @NotNull String warpName) {
+        return removePlayerWarp(player.getUniqueId(), warpName);
+    }
+
+    default boolean removePlayerWarp(@NotNull UUID playerUniqueId, @NotNull String warpName) {
+        val entries = getPlayerEntries(playerUniqueId);
+        return entries.removeIf(e -> warpName.equalsIgnoreCase(e.getName()));
+    }
+
 
 
     // Rename:
