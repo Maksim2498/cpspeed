@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -17,12 +18,21 @@ import space.moontalk.mc.cpspeed.message.MessageProvider;
 import space.moontalk.mc.cpspeed.message.MessageProviderHolder;
 
 public interface TeleportManager extends MessageProviderHolder {
+    // Message Provider:
+
+    @NotNull MessageProvider getMessageProvider();
+
+
+
+    // Timings:
+
     int getDelaySeconds();
     int getOpDelaySeconds();
     int getCoolDownSeconds();
     int getOpCoolDownSeconds();
     int getTimeOutSeconds();
-    @NotNull MessageProvider getMessageProvider();
+
+
 
     // Cool Down:
 
@@ -51,8 +61,12 @@ public interface TeleportManager extends MessageProviderHolder {
     }
 
     int getCoolDownSeconds(@NotNull Player player);
+
+
     
     // Spawn:
+
+    // - Self:
 
     default void teleportToSpawn(@NotNull String playerName) throws Exception {
         teleportToSpawn(getPlayer(playerName));
@@ -70,6 +84,51 @@ public interface TeleportManager extends MessageProviderHolder {
 
         teleport(player, spawn, "spawn");
     }
+
+    // - Other:
+    default void teleportToPlayerSpawn(@NotNull String fromName, @NotNull String toName) throws Exception {
+        teleportToPlayerSpawn(getPlayer(fromName), getAnyPlayer(toName));
+    }
+
+    default void teleportToPlayerSpawn(@NotNull String fromName, @NotNull UUID toUniqueId) throws Exception {
+        teleportToPlayerSpawn(getPlayer(fromName), getAnyPlayer(toUniqueId));
+    }
+
+    default void teleportToPlayerSpawn(@NotNull String fromName, @NotNull OfflinePlayer to) throws Exception {
+        teleportToPlayerSpawn(getPlayer(fromName), to);
+    }
+
+    default void teleportToPlayerSpawn(@NotNull UUID fromUniqueId, @NotNull String toName) throws Exception {
+        teleportToPlayerSpawn(getPlayer(fromUniqueId), getAnyPlayer(toName));
+    }
+
+    default void teleportToPlayerSpawn(@NotNull UUID fromUniqueId, @NotNull UUID toUniqueId) throws Exception {
+        teleportToPlayerSpawn(getPlayer(fromUniqueId), getAnyPlayer(toUniqueId));
+    }
+
+    default void teleportToPlayerSpawn(@NotNull UUID fromUniqueId, @NotNull OfflinePlayer to) throws Exception {
+        teleportToPlayerSpawn(getPlayer(fromUniqueId), to);
+    }
+
+    default void teleportToPlayerSpawn(@NotNull Player from, @NotNull String toName) throws Exception {
+        teleportToPlayerSpawn(from, getAnyPlayer(toName));
+    }
+
+    default void teleportToPlayerSpawn(@NotNull Player from, @NotNull UUID toUniqueId) throws Exception {
+        teleportToPlayerSpawn(from, getAnyPlayer(toUniqueId));
+    }
+
+    default void teleportToPlayerSpawn(@NotNull Player from, @NotNull OfflinePlayer to) throws Exception {
+        val spawn = to.getBedSpawnLocation();
+
+        if (spawn == null)
+            throwOtherMissingBed(from, to);
+
+        val name = String.format("%s's spawn", to.getName());
+        teleport(from, spawn, name);
+    }
+
+
 
     // World Spawn:
 
@@ -127,6 +186,8 @@ public interface TeleportManager extends MessageProviderHolder {
     }
 
     @NotNull World getDefaultWorld();
+
+
 
     // Teleport:
 
@@ -188,6 +249,8 @@ public interface TeleportManager extends MessageProviderHolder {
 
     void teleport(@NotNull Player player, @NotNull Location location, @NotNull String locationName) throws Exception;
 
+
+
     // Request:
 
     default void sendRequest(@NotNull String fromName, @NotNull String toName) throws Exception {
@@ -223,6 +286,8 @@ public interface TeleportManager extends MessageProviderHolder {
     }
 
     void sendRequest(@NotNull Player from, @NotNull Player to) throws Exception;
+
+
 
     // Accept:
 
@@ -276,6 +341,8 @@ public interface TeleportManager extends MessageProviderHolder {
     }
 
     void acceptRequest(@NotNull Player from, @NotNull Player to) throws Exception;
+
+
     
     // Deny:
 
@@ -328,6 +395,8 @@ public interface TeleportManager extends MessageProviderHolder {
     }
 
     void denyRequest(@NotNull Player from, @NotNull Player to) throws Exception;
+
+
     
     // List:
     
@@ -354,6 +423,8 @@ public interface TeleportManager extends MessageProviderHolder {
     }
 
     @NotNull Set<Player> getSentRequests(@NotNull Player from);
+
+
 
     // Utility:
     
@@ -387,6 +458,12 @@ public interface TeleportManager extends MessageProviderHolder {
     private void throwMissingBed(@NotNull Player player) throws Exception {
         val messageProvider = getMessageProvider();
         val message         = messageProvider.makeMissingBedMessage(player);
+        throw new Exception(message);
+    }
+
+    private void throwOtherMissingBed(@NotNull Player from, @NotNull OfflinePlayer to) throws Exception {
+        val messageProvider = getMessageProvider();
+        val message         = messageProvider.makeMissingPlayerBedMessage(from, to);
         throw new Exception(message);
     }
 }

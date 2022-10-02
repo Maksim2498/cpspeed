@@ -2,6 +2,7 @@ package space.moontalk.mc.cpspeed.message;
 
 import java.util.Set;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ public class DefaultMessageProvider extends    AbstractConfigMessageProvider
                                     implements MessageProvider {
     
     public DefaultMessageProvider(@NotNull Configuration config) {
-        super(config);
+        super(config, "message");
     }
 
     @Override
@@ -306,6 +307,15 @@ public class DefaultMessageProvider extends    AbstractConfigMessageProvider
         return getFormattedString(
             "error.missing-bed",
             "from", from.getName()
+        );
+    }
+
+    @Override
+	public @NotNull String makeMissingPlayerBedMessage(@NotNull Player from, @NotNull OfflinePlayer to) {
+        return getFormattedString(
+            "error.missing-player-bed",
+            "from", from.getName(),
+            "to",   to.getName()
         );
     }
 

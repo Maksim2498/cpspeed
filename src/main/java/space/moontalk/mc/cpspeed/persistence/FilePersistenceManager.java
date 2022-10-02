@@ -1,5 +1,6 @@
 package space.moontalk.mc.cpspeed.persistence;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -51,13 +52,15 @@ public class FilePersistenceManager implements PersistenceManager,
     }
 
     private void loadGlobal() throws IOException, ClassNotFoundException {
-        val stream = createGlobalInputStream();
-        val count  = stream.readInt();
+        try {
+            val stream = createGlobalInputStream();
+            val count  = stream.readInt();
 
-        for (int i = 0; i < count; ++i) {
-            val entry = (Entry) stream.readObject();
-            entries.add(entry);
-        }
+            for (int i = 0; i < count; ++i) {
+                val entry = (Entry) stream.readObject();
+                entries.add(entry);
+            }
+        } catch (EOFException exception) {}
     }
 
     private void loadPlayers() throws IOException, ClassNotFoundException {
@@ -79,13 +82,15 @@ public class FilePersistenceManager implements PersistenceManager,
     }
 
     private void loadPlayer(@NotNull UUID playerUniqueId) throws IOException, ClassNotFoundException {
-        val stream = createPlayerInputStream(playerUniqueId);
-        val count  = stream.readInt();
+        try {
+            val stream = createPlayerInputStream(playerUniqueId);
+            val count  = stream.readInt();
 
-        for (int i = 0; i < count; ++i) {
-            val entry = (PlayerEntry) stream.readObject();
-            entries.add(entry);
-        }
+            for (int i = 0; i < count; ++i) {
+                val entry = (PlayerEntry) stream.readObject();
+                entries.add(entry);
+            }
+        } catch (EOFException exception) {}
     }
 
     @Override

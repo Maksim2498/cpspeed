@@ -1,14 +1,15 @@
 package space.moontalk.mc.cpspeed.message;
 
+import static space.moontalk.mc.more.bukkit.MoreBukkit.*;
+
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.NotNull;
-
-import lombok.val;
 
 import space.moontalk.mc.commands.message.placeholder.PlayerNotFoundMessageProvider;
 import space.moontalk.mc.commands.message.placeholder.WorldNotFoundMessageProvider;
@@ -16,8 +17,6 @@ import space.moontalk.mc.commands.message.route.InvalidClassMessageProvider;
 import space.moontalk.mc.commands.message.route.MissingPermissionMessageProvider;
 
 import space.moontalk.mc.more.bukkit.message.ConfigMessageProvider;
-
-import static space.moontalk.mc.more.bukkit.MoreBukkit.*;
 
 public interface MessageProvider extends SecondsMessageProvider,
 										 ConfigMessageProvider,
@@ -537,6 +536,8 @@ public interface MessageProvider extends SecondsMessageProvider,
 
 	@NotNull String makeSentRequestsItemMessage(@NotNull Player from, @NotNull Player to);
 
+
+
     // Teleport:
 
 	// - Cannot Be Teleported:
@@ -675,6 +676,8 @@ public interface MessageProvider extends SecondsMessageProvider,
     
 	@NotNull String makeTeleportedMessage(@NotNull Player from);
 
+
+
     // Error:
 
 	// - Cannot Send To Your Self:
@@ -704,6 +707,42 @@ public interface MessageProvider extends SecondsMessageProvider,
 	}
     
 	@NotNull String makeMissingBedMessage(@NotNull Player from);
+
+	// - Missing Player Bed:
+
+	default @NotNull String makeMissingPlayerBedMessage(@NotNull String fromName, @NotNull String toName) {
+		return makeMissingPlayerBedMessage(getPlayer(fromName), getAnyPlayer(toName));
+	}
+
+	default @NotNull String makeMissingPlayerBedMessage(@NotNull String fromName, @NotNull UUID toUniqueId) {
+		return makeMissingPlayerBedMessage(getPlayer(fromName), getAnyPlayer(toUniqueId));
+	}
+
+	default @NotNull String makeMissingPlayerBedMessage(@NotNull String fromName, @NotNull OfflinePlayer to) {
+		return makeMissingPlayerBedMessage(getPlayer(fromName), to);
+	}
+
+	default @NotNull String makeMissingPlayerBedMessage(@NotNull UUID fromUniqueId, @NotNull String toName) {
+		return makeMissingPlayerBedMessage(getPlayer(fromUniqueId), getAnyPlayer(toName));
+	}
+
+	default @NotNull String makeMissingPlayerBedMessage(@NotNull UUID fromUniqueId, @NotNull UUID toUniqueId) {
+		return makeMissingPlayerBedMessage(getPlayer(fromUniqueId), getAnyPlayer(toUniqueId));
+	}
+
+	default @NotNull String makeMissingPlayerBedMessage(@NotNull UUID fromUniqueId, @NotNull OfflinePlayer to) {
+		return makeMissingPlayerBedMessage(getPlayer(fromUniqueId), to);
+	}
+
+	default @NotNull String makeMissingPlayerBedMessage(@NotNull Player from, @NotNull String toName) {
+		return makeMissingPlayerBedMessage(from, getAnyPlayer(toName));
+	}
+
+	default @NotNull String makeMissingPlayerBedMessage(@NotNull Player from, @NotNull UUID toUniqueId) {
+		return makeMissingPlayerBedMessage(from, getAnyPlayer(toUniqueId));
+	}
+
+	@NotNull String makeMissingPlayerBedMessage(@NotNull Player from, @NotNull OfflinePlayer to);
 
 	// - Already:
     

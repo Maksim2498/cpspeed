@@ -163,6 +163,7 @@ public interface PersistenceManager {
     }
 
     default void setPlayerWarp(@NotNull UUID playerUniqueId, @NotNull String warpName, @NotNull Location location) {
+        removePlayerWarp(playerUniqueId, warpName);
         val entries = getEntries();
         val entry   = new PlayerEntry(playerUniqueId, warpName, location);
         entries.add(entry);
@@ -171,6 +172,7 @@ public interface PersistenceManager {
     // - Global:
 
     default void setGlobalWarp(@NotNull String warpName, @NotNull Location location) {
+        removeGlobalWarp(warpName);
         val entries = getEntries();
         val entry   = new GlobalEntry(warpName, location);
         entries.add(entry);
@@ -209,6 +211,40 @@ public interface PersistenceManager {
 
 
     // Rename:
+
+    // - Global:
+
+    default void renameGlobalWarp(@NotNull String oldWarpName, @NotNull String newWarpName) {
+        val warp = getGlobalWarp(oldWarpName);
+        removeGlobalWarp(oldWarpName);
+        setGlobalWarp(newWarpName, warp);
+    }
+
+    // - Player:
+
+    default boolean renamePlayerWarp(@NotNull String playerName, @NotNull String oldWarpName, @NotNull String newWarpName) {
+        return renamePlayerWarp(getPlayerUniqueId(playerName), oldWarpName, newWarpName);
+    }
+
+    default boolean renamePlayerWarp(@NotNull Player player, @NotNull String oldWarpName, @NotNull String newWarpName) {
+        return renamePlayerWarp(player.getUniqueId(), oldWarpName, newWarpName);
+    }
+
+    default boolean renamePlayerWarp(@NotNull OfflinePlayer player, @NotNull String oldWarpName, @NotNull String newWarpName) {
+        return renamePlayerWarp(player.getUniqueId(), oldWarpName, newWarpName);
+    }
+
+    default boolean renamePlayerWarp(@NotNull UUID playerUniqueId, @NotNull String oldWarpName, @NotNull String newWarpName) {
+        val warp = getPlayerWarpOrNull(playerUniqueId, oldWarpName);
+
+        if (warp == null)
+            return false;
+
+        removePlayerWarp(playerUniqueId, oldWarpName);
+        setPlayerWarp(playerUniqueId, newWarpName, warp);
+
+        return true;
+    }
 
 
 
@@ -326,6 +362,9 @@ public interface PersistenceManager {
         public boolean equals(@Nullable Object object) {
             if (this == object)
                 return true;
+
+            if (object == null)
+                return false;
 
             val thisClass   = getClass();
             val objectClass = object.getClass();

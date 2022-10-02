@@ -54,6 +54,7 @@ message:
     cannot-send-request-to-your-self: "§cYou cannot send request to your self"
     wait-until-cool-down-over: "§cWait until your cool down is over\n<left> remaining"
     missing-bed: "§cYour bed isn't available now" 
+    missing-player-bed: "§c<to>'s bed isn't available now"
     already-teleporting: "§cYou are already teleporting"
     player-not-found: "§cPlayer <player> not found"
     world-not-found: "§cWorld <world> not found"

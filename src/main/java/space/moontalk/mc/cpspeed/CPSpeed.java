@@ -133,13 +133,13 @@ public class CPSpeed extends    JavaPlugin
     private void setupCommands() {
         // Spawn:
 
-        val spawnHandler = new SpawnHandler(teleportManager);
-        commandHandler.addCommandRoute("spawn", spawnHandler);
+        val spawn = new SpawnHandler(teleportManager);
+        commandHandler.addCommandRoute("spawn %a?", spawn);
 
         // World Spawn:
 
-        val worldSpawnHandler = new WorldSpawnHandler(teleportManager);
-        commandHandler.addCommandRoute("worldspawn %w?", worldSpawnHandler);
+        val worldSpawn = new WorldSpawnHandler(teleportManager);
+        commandHandler.addCommandRoute("worldspawn %w?", worldSpawn);
 
         // Tpa:
 
@@ -147,40 +147,41 @@ public class CPSpeed extends    JavaPlugin
 
         // -- Got:
 
-        val tpaListGotOtherHandler = new TpaListGotOtherHandler(teleportManager);
-        commandHandler.addCommandRoute("tpa list (got | in) %p", tpaListGotOtherHandler);
+        val tpaListGotOther = new TpaListGotOtherHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa list (got | in) %p", tpaListGotOther);
 
-        val tpaListGotSelfHandler = new TpaListGotSelfHandler(teleportManager);
-        commandHandler.addCommandRoute("tpa list (got | in)", tpaListGotSelfHandler);
+        val tpaListGotSelf = new TpaListGotSelfHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa list (got | in)", tpaListGotSelf);
 
         // -- Sent:
 
-        val tpaListSentOtherHandler = new TpaListSentOtherHandler(teleportManager);
-        commandHandler.addCommandRoute("tpa list (sent | out) %p", tpaListSentOtherHandler);
+        val tpaListSentOther = new TpaListSentOtherHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa list (sent | out) %p", tpaListSentOther);
 
-        val tpaListSentSelfHandler = new TpaListSentSelfHandler(teleportManager);
-        commandHandler.addCommandRoute("tpa list (sent | out)", tpaListSentSelfHandler);
+        val tpaListSentSelf = new TpaListSentSelfHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa list (sent | out)", tpaListSentSelf);
 
         // - To:
 
-        val tpaToHandler = new TpaToHandler(teleportManager);
-        commandHandler.addCommandRoute("tpa to? %t", tpaToHandler); 
+        val tpaTo = new TpaToHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa to? %t", tpaTo); 
 
         // - Accept:
 
-        val tpaAcceptHandler = new TpaAcceptHandler(teleportManager);
-        commandHandler.addCommandRoute("tpa accept %r?", tpaAcceptHandler); 
+        val tpaAccept = new TpaAcceptHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa accept %r?", tpaAccept); 
 
         // - Deny:
 
-        val tpaDenyHandler = new TpaDenyHandler(teleportManager);
-        commandHandler.addCommandRoute("tpa deny %r?", tpaDenyHandler); 
+        val tpaDeny = new TpaDenyHandler(teleportManager);
+        commandHandler.addCommandRoute("tpa deny %r?", tpaDeny); 
     }
 
     private void reactCriticalError(@NotNull Exception exception) {
         val logger  = getLogger();
-        val message = String.format("Critical error occurred:%s\nDisabling plugin...", exception.getMessage());
+        val message = String.format("Critical error occurred\nDisabling plugin...");
         logger.info(message);
+        exception.printStackTrace();
 
         val server        = getServer();
         val pluginManager = server.getPluginManager();
@@ -189,7 +190,8 @@ public class CPSpeed extends    JavaPlugin
 
     private void reactError(@NotNull Exception exception) {
         val logger  = getLogger();
-        val message = String.format("Error occurred:%s", exception.getMessage());
+        val message = String.format("Error occurred");
         logger.info(message);
+        exception.printStackTrace();
     }
 }
